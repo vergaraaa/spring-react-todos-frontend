@@ -22,7 +22,7 @@ export const Login = () => {
         if(username === "vergaraaa" && password === "123456") {
             setError(false);
             setSuccess(true);
-            navigate("/welcome");
+            navigate(`/welcome/${username}`);
         }
         else {
             setError(true);

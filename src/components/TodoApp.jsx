@@ -14,7 +14,7 @@ export const TodoApp = () => {
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/welcome' element={<Welcome />} />
+          <Route path='/welcome/:username' element={<Welcome />} />
           <Route path='*' element={<Error />} />
         </Routes>
       </BrowserRouter>
