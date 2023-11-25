@@ -32,6 +32,7 @@ export const Login = () => {
 
   return (
     <div className='login'>
+        <h1>Time to Login!</h1>
         { success &&  <div className="success-message">Authenticated succesfully</div>}
         { error && <div className="error-message">Authenticated failed. Please check your credentials</div> }
         <div className='login-form'>
