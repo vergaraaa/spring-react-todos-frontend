@@ -4,6 +4,8 @@ export const Login = () => {
 
     const [username, setUsername] = useState("vergaraaa");
     const [password, setPassword] = useState("");
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
 
     const handleUsernameChanged = (e) => {
         setUsername(e.target.value);
@@ -13,8 +15,21 @@ export const Login = () => {
         setPassword(e.target.value);
     }
 
+    const handleSubmit = () => {
+        if(username === "vergaraaa" && password === "123456") {
+            setError(false);
+            setSuccess(true);
+        }
+        else {
+            setError(true);
+            setSuccess(false);
+        }
+    }
+
   return (
-    <div className='òogin'>
+    <div className='login'>
+        { success &&  <div className="success-message">Authenticated succesfully</div>}
+        { error && <div className="error-message">Authenticated failed. Please check your credentials</div> }
         <div className='login-form'>
             <div>
                 <label htmlFor="username">Username</label>
@@ -35,7 +50,7 @@ export const Login = () => {
                 />
             </div>
             <div>
-                <button type="button" name='login'>Login</button>
+                <button type="button" name='login' onClick={handleSubmit}>Login</button>
             </div>
         </div>
     </div>
