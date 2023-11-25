@@ -14,9 +14,9 @@ import { Logout } from "./Logout";
 export const TodoApp = () => {
   return (
     <div className='todo-app'>
-      <Header />
-
       <BrowserRouter>
+        <Header />
+
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/login' element={<Login />} />
@@ -26,9 +26,10 @@ export const TodoApp = () => {
 
           <Route path='*' element={<Error />} />
         </Routes>
+        
+        <Footer />
       </BrowserRouter>
 
-      <Footer />
     </div>
   )
 }

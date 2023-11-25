@@ -2,9 +2,10 @@ import React from 'react'
 
 export const Footer = () => {
   return (
-    <div className='footer'>
-        <hr />
-        Footer
-    </div>
+    <footer className='footer'>
+        <div className='container'>
+            © vergaraaa ©
+        </div>
+    </footer>
   )
 }
