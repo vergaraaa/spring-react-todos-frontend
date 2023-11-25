@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
 
@@ -6,6 +7,8 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+    
+    const navigate = useNavigate();
 
     const handleUsernameChanged = (e) => {
         setUsername(e.target.value);
@@ -19,6 +22,7 @@ export const Login = () => {
         if(username === "vergaraaa" && password === "123456") {
             setError(false);
             setSuccess(true);
+            navigate("/welcome");
         }
         else {
             setError(true);
