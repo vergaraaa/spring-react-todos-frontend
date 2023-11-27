@@ -6,12 +6,11 @@ export const Login = () => {
 
     const [username, setUsername] = useState("vergaraaa");
     const [password, setPassword] = useState("");
-    const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     
     const navigate = useNavigate();
 
-    const { setIsAuthenticated } = useAuthContext();
+    const { login } = useAuthContext();
 
     const handleUsernameChanged = (e) => {
         setUsername(e.target.value);
@@ -22,23 +21,17 @@ export const Login = () => {
     }
 
     const handleSubmit = () => {
-        if(username === "vergaraaa" && password === "123456") {
-            setError(false);
-            setSuccess(true);
-            setIsAuthenticated(true);
+        if(login(username, password)) {
             navigate(`/welcome/${username}`);
         }
         else {
             setError(true);
-            setSuccess(false);
-            setIsAuthenticated(false);
         }
     }
 
   return (
     <div className='login'>
         <h1>Time to Login!</h1>
-        { success &&  <div className="success-message">Authenticated succesfully</div>}
         { error && <div className="error-message">Authenticated failed. Please check your credentials</div> }
         <div className='login-form'>
             <div>

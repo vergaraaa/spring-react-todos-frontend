@@ -11,13 +11,30 @@ export default function AuthProvider({ children }) {
     // set state of the context
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const value = {
-    isAuthenticated,
-    setIsAuthenticated,
-  }
+    
+    const login = (username, password) => {
+      if(username === "vergaraaa" && password === "123456") {
+        setIsAuthenticated(true);
+        return true;
+      }
+      else {
+        setIsAuthenticated(false);
+        return false;
+      }
+    }
+    
+    const logout = () => {
+      setIsAuthenticated(false);
+    }
+    
+    const value = {
+      isAuthenticated,
+      login,
+      logout,
+    }
 
-  return (
-    <AuthContext.Provider value={value} >
+    return (
+      <AuthContext.Provider value={value} >
         { children } 
     </AuthContext.Provider>
   )
