@@ -1,30 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getTodosFromUser } from '../api/TodoApiService';
 
 export const ListTodos = () => {
+
+    const [todos, setTodos] = useState([]);
+
+    useEffect(() => {
+        fetchTodosFromUser();
+    }, [])
     
-    const today = new Date();
-    const targetDate = new Date(today.getFullYear()+13, today.getMonth(), today.getDay());
-    
-    const todos = [
-        {
-            id: 1, 
-            description: "Learn AWS",
-            done: false,
-            targetDate: targetDate,
-        },
-        {
-            id: 2, 
-            description: "Learn Full Stack Dev",
-            done: false,
-            targetDate: targetDate,
-        },
-        {
-            id: 3, 
-            description: "Learn DevOps",
-            done: false,
-            targetDate: targetDate,
-        },
-    ];
+    const fetchTodosFromUser = () => {
+        getTodosFromUser("vergaraaa")
+          .then((response) => setTodos(response.data))
+          .catch((error) => console.log(error))
+          .finally(() => {});
+    }
 
   return (
     <div className='container'>
@@ -47,7 +37,7 @@ export const ListTodos = () => {
                                     <td>{todo.id}</td>
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
-                                    <td>{todo.targetDate.toDateString()}</td>
+                                    <td>{todo.targetDate}</td>
                                 </tr>
                             )
                         )
