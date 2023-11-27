@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../security/AuthContext';
 
 export const Login = () => {
 
@@ -9,6 +10,8 @@ export const Login = () => {
     const [error, setError] = useState(false);
     
     const navigate = useNavigate();
+
+    const { setIsAuthenticated } = useAuthContext();
 
     const handleUsernameChanged = (e) => {
         setUsername(e.target.value);
@@ -22,11 +25,13 @@ export const Login = () => {
         if(username === "vergaraaa" && password === "123456") {
             setError(false);
             setSuccess(true);
+            setIsAuthenticated(true);
             navigate(`/welcome/${username}`);
         }
         else {
             setError(true);
             setSuccess(false);
+            setIsAuthenticated(false);
         }
     }
 

@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../security/AuthContext';
 
 export const Header = () => {
 
-    const authContext = useAuthContext();
+    const { isAuthenticated, setIsAuthenticated } = useAuthContext();
 
-    console.log(authContext.number);
-    
+    const logout = () => {
+        setIsAuthenticated(false);
+    }
+
   return (
     <header className="border-bottom border-light border-5 mb-5 p-2">
         <div className="container">
@@ -16,13 +18,22 @@ export const Header = () => {
                     <a className="navbar-brand ms-2 fs-2 fw-bold text-black" target='_blank' rel="noreferrer" href="https://github.com/vergaraaa">vergaraaa</a>
                     <div className="collapse navbar-collapse">
                         <ul className="navbar-nav">
-                            <li className="nav-item fs-5"><Link className="nav-link" to="/welcome/vergaraaa">Home</Link></li>
-                            <li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>
+                            {
+                                isAuthenticated && (
+                                    <>
+                                        <li className="nav-item fs-5"><Link className="nav-link" to="/welcome/vergaraaa">Home</Link></li>
+                                        <li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>
+                                    </>
+                                )
+                            }
                         </ul>
                     </div>
                     <ul className="navbar-nav">
-                        <li className="nav-item fs-5"><Link className="nav-link" to="/login">Login</Link></li>
-                        <li className="nav-item fs-5"><Link className="nav-link" to="/logout">Logout</Link></li>
+                         {
+                            isAuthenticated 
+                                ?   <li className="nav-item fs-5"><Link className="nav-link" to="/logout" onClick={logout}>Logout</Link></li>
+                                :   <li className="nav-item fs-5"><Link className="nav-link" to="/login">Login</Link></li>
+                         }
                     </ul>
                 </nav>
             </div>
