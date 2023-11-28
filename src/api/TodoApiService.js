@@ -12,5 +12,8 @@ export const getTodosFromUser = (username) =>
 export const getTodoFromUser = (username, id) =>
     api.get(`/users/${username}/todos/${id}`);
 
+export const updateTodoFromUser = (username, id, todo) =>
+    api.put(`/users/${username}/todos/${id}`, todo);
+
 export const deleteTodoById = (username, id) =>
     api.delete(`/users/${username}/todos/${id}`);
