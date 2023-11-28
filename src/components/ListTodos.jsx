@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { deleteTodoById, getTodosFromUser } from '../api/TodoApiService';
+import { useAuthContext } from '../security/AuthContext';
 
 export const ListTodos = () => {
 
     const [todos, setTodos] = useState([]);
     const [message, setMessage] = useState("");
 
+    const { username } = useAuthContext();
+
     useEffect(() => {
         fetchTodosFromUser();
     }, []);
     
     const fetchTodosFromUser = () => {
-        getTodosFromUser("vergaraaa")
+        getTodosFromUser(username)
           .then((response) => setTodos(response.data))
           .catch((error) => console.log(error))
           .finally(() => {});
     }
 
     const deleteTodo = (id) => {
-        deleteTodoById("vergaraaa", id)
+        deleteTodoById(username, id)
             .then(() => {
                 setMessage(`Todo with id ${id} deleted successfully`);
                 

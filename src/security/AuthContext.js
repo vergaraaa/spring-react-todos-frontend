@@ -10,15 +10,19 @@ export default function AuthProvider({ children }) {
 
     // set state of the context
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [username, setUsername] = useState(null);
 
-    
     const login = (username, password) => {
       if(username === "vergaraaa" && password === "123456") {
+        setUsername(username);
         setIsAuthenticated(true);
+        
         return true;
       }
       else {
         setIsAuthenticated(false);
+        setUsername(null);
+
         return false;
       }
     }
@@ -31,6 +35,7 @@ export default function AuthProvider({ children }) {
       isAuthenticated,
       login,
       logout,
+      username,
     }
 
     return (
