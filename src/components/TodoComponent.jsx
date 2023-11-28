@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getTodoFromUser } from '../api/TodoApiService';
 import { useAuthContext } from '../security/AuthContext';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 export const TodoComponent = () => {
 
@@ -25,17 +25,48 @@ export const TodoComponent = () => {
         console.log(values);
     }
 
+    const validate = (values) => {
+        let errors = {};
+
+        if(values.description.length < 5) {
+            errors.description = "Enter at least five characters."
+        }
+
+        if(values.targetDate == null) {
+            errors.targetDate = "Enter a target date.";
+        }
+
+        return errors;
+    }
+
   return (
     <div className='container'>
         <h1>Enter Todo Details</h1>
         <div>
-            <Formik initialValues={{
-                description,
-                targetDate,
-            }} enableReinitialize={true} onSubmit={onSubmit}>
+            <Formik 
+                initialValues={{
+                    description,
+                    targetDate,
+                }} 
+                enableReinitialize={true} 
+                onSubmit={onSubmit}
+                validate={validate}
+                validateOnChange={false}
+                validateOnBlur={false}
+            >
                 {
                     (props) => (
                         <Form>
+                            <ErrorMessage 
+                                name='description'
+                                component='div'
+                                className='alert alert-danger'
+                            />
+                            <ErrorMessage 
+                                name='targetDate'
+                                component='div'
+                                className='alert alert-danger'
+                            />
                             <fieldset className='form-group'>
                                 <label htmlFor="description">Description</label>
                                 <Field type="text" className="form-control" name="description" />
