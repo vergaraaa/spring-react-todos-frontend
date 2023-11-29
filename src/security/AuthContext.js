@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { exceuteBasicAuthenticationService } from "../api/HelloWorldApiService";
+import { exceuteJwtAuthenticationService } from "../api/AuthenticationApiService";
 
 import { api } from "../api/ApiClient";
 
@@ -18,19 +18,18 @@ export default function AuthProvider({ children }) {
   const [token, setToken] = useState(null)
 
   const login = async (username, password) => {
-    const baToken = "Basic " + window.btoa(username + ":" + password);
-
     try {
-      const res = await exceuteBasicAuthenticationService(baToken);
+      const res = await exceuteJwtAuthenticationService(username, password);
 
       if (res.status === 200) {
-        setToken(baToken);
+        const jwt = `Bearer ${res.data.token}`;
+        setToken(jwt);
         setUsername(username);
         setIsAuthenticated(true);
 
         api.interceptors.request.use(
           (config) => {
-            config.headers.Authorization = baToken
+            config.headers.Authorization = jwt
             return config;
           }
         )
@@ -45,9 +44,37 @@ export default function AuthProvider({ children }) {
       logout();
       return false;
     }
-
-
   }
+
+  // const login = async (username, password) => {
+  //   const baToken = "Basic " + window.btoa(username + ":" + password);
+
+  //   try {
+  //     const res = await exceuteBasicAuthenticationService(baToken);
+
+  //     if (res.status === 200) {
+  //       setToken(baToken);
+  //       setUsername(username);
+  //       setIsAuthenticated(true);
+
+  //       api.interceptors.request.use(
+  //         (config) => {
+  //           config.headers.Authorization = baToken
+  //           return config;
+  //         }
+  //       )
+
+  //       return true;
+  //     }
+  //     else {
+  //       logout();
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     logout();
+  //     return false;
+  //   }
+  // }
 
   const logout = () => {
     setToken(null);
