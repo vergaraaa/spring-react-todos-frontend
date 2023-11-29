@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getTodoFromUser, updateTodoFromUser } from '../api/TodoApiService';
+import { createTodoFromUser, getTodoFromUser, updateTodoFromUser } from '../api/TodoApiService';
 import { useAuthContext } from '../security/AuthContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import moment from 'moment';
 
 export const TodoComponent = () => {
 
@@ -15,28 +16,43 @@ export const TodoComponent = () => {
     const [targetDate, setTargetDate] = useState("")
     
     useEffect(() => {    
-        getTodoFromUser(username, id) 
-            .then((res) => { 
-                setDescription(res.data.description);
-                setTargetDate(res.data.targetDate);
-            })
-            .catch((error) => error);
+        getTodo();
     }, [id]);
+    
+    const getTodo = () => {
+        if (id !== '-1') {
+            getTodoFromUser(username, id) 
+                .then((res) => { 
+                    setDescription(res.data.description);
+                    setTargetDate(res.data.targetDate);
+                })
+                .catch((error) => error);
+        }
+    }
     
     const onSubmit = (values) => {
         const todo = {
-            id,
+            id: id,
             username,
             description: values.description,
             targetDate: values.targetDate,
             done: false,
         }
 
-        updateTodoFromUser(username, id, todo)
-            .then((res) => {
-                navigate("/todos")
-            })
-            .catch((error) => console.log(error));
+        if(id === '-1') {
+            createTodoFromUser(username, todo)
+                .then((res) => {
+                    navigate("/todos")
+                })
+                .catch((error) => console.log(error));
+        }
+        else {
+            updateTodoFromUser(username, id, todo)
+                .then((res) => {
+                    navigate("/todos")
+                })
+                .catch((error) => console.log(error));
+        }
     }
 
     const validate = (values) => {
@@ -46,7 +62,7 @@ export const TodoComponent = () => {
             errors.description = "Enter at least five characters."
         }
 
-        if(values.targetDate == null) {
+        if(values.targetDate === null || values.targetDate === "" || !moment(values.targetDate).isValid()) {
             errors.targetDate = "Enter a target date.";
         }
 

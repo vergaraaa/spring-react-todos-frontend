@@ -43,6 +43,10 @@ export const ListTodos = () => {
     const updateTodo = (id) => {
         navigate(`/todos/${id}`);
     }
+    
+    const addTodo = () => {
+        navigate(`/todos/-1`);
+    }
 
   return (
     <div className='container'>
@@ -87,6 +91,7 @@ export const ListTodos = () => {
                     }
                 </tbody>
             </table>
+            <button className="btn btn-success m-3" onClick={addTodo}>Add New Todo</button>
         </div>
     </div>
   )
