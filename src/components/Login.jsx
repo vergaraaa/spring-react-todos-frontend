@@ -20,8 +20,8 @@ export const Login = () => {
         setPassword(e.target.value);
     }
 
-    const handleSubmit = () => {
-        if(login(username, password)) {
+    const handleSubmit = async () => {
+        if(await login(username, password)) {
             navigate(`/welcome/${username}`);
         }
         else {
