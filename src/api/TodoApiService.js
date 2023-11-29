@@ -1,13 +1,5 @@
-import axios from 'axios';
+import { api } from "./ApiClient";
 
-const api = axios.create(
-    {
-        baseURL: 'http://localhost:8080',
-        headers: {
-            Authorization: "Basic dmVyZ2FyYWFhOjEyMzQ1Ng=="
-        }
-    }
-);
 
 export const getTodosFromUser = (username) =>
     api.get(`/users/${username}/todos`);
